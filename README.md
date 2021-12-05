@@ -44,23 +44,40 @@ The main purpose was to write a program that take care of 3 steps:
       And the result: <br/><br/>
       <img src="/images/result_mhz_ghz.png">
       <br/><br/>
-   B. Now that we have the CPU's frequency in GHz, we can create the simple function `gethosttime()` to calculate the equivalent long long in nanosecond. <br/>
+   B. Now that we have the CPU's frequency in GHz, we can create the simple function `gethosttime()` to calculate the equivalent long long in nanosecond. <br/><br/>
       ```bash
       unsigned long long gethosttime(unsigned long long cycles) {
           double ghz =  getfreqGHz();
-        //printf("The equivalent in nanoseconds: %lf \n", cycles / ghz);
+        //printf("The equivalent in nanoseconds: %lf \n", cycles / ghz);  //Added only for print-debugging
           return (cycles / ghz);
       }
       ```
-      <br/>
       And the result: <br/><br/>
-      <img src="/images/eqivalent_nanoseconds.png">
+      <img src="/images/equivalent_nanoseconds.png">
       <br/><br/>
 2. Using `gethosttime()` , I had to measure how long it takes to execute `getcycles()` . In addition, I had to time the `gettimeofday()`  system call.
-   We were asked to be mindful to do the measurement while minimizing the overhead of doing the measurement. <br/>
-   
-   As you can, I've declared all the variables before, just assigned them when needed.
-   
+   We were asked to be mindful to do the measurement while minimizing the overhead of doing the measurement. <br/><br/>
+   ```bash
+   static void measure_get_cycles() {
+       unsigned long long before = getcycles();
+       getcycles();
+       unsigned long long after = getcycles();
+       unsigned long long diff = (gethosttime(after - before));
+       printf("Get cycles took %llu nanosecond\n",diff);
+   }
+   static void measure_gettimeofday() {
+       struct timeval current_time;
+       unsigned long long before = getcycles();
+       gettimeofday(&current_time, NULL);
+       unsigned long long after = getcycles();
+       unsigned long long diff = (gethosttime(after - before));
+       printf("Get time of day took %llu nanoseconds\n", diff);
+   }
+   ```
+   As you can, I've declared all the variables before, just assigned them when needed. <br/>
+   And for the results: <br/><br/>
+   <img src="/images/get_cycles_get_timeofday.png">
+   <br/><br/>
 3. I had to use both `gethosttime()`  and the `gettimeofday()`  system call to time the inner for-loop of the following bit of code: <br/><br/>
    ```bash
       for (i=0; i < 1000; i++) {
