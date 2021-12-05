@@ -75,22 +75,40 @@ The main purpose was to write a program that take care of 3 steps:
    }
    ```
    As you can, I've declared all the variables before, just assigned them when needed. <br/>
-   And for the results: <br/><br/>
+   And as for the results: <br/><br/>
    <img src="/images/get_cycles_get_timeofday.png">
    <br/><br/>
 3. I had to use both `gethosttime()`  and the `gettimeofday()`  system call to time the inner for-loop of the following bit of code: <br/><br/>
    ```bash
-      for (i=0; i < 1000; i++) {
-          for (j=0; j < 100; j++) {  /* inner loop starts here */
-              k = i + j;  
-          }                          /* inner loop ends here */
-      }
+   void calculate_inner_loop() {
+       int i, j, k;
+       unsigned long long before_cycles, after_cycles;
+       suseconds_t before_day, after_day;
+       struct timeval current_time;
+
+       for (i=0; i < 1000; i++) {
+
+        before_cycles = getcycles();
+        gettimeofday(&current_time, NULL);
+        before_day = current_time.tv_usec;
+
+           for (j=0; j < 100; j++) {  /* inner loop starts here */
+               k = i + j;  
+           }                          /* inner loop ends here */
+        after_cycles = getcycles();
+        gettimeofday(&current_time, NULL);
+        after_day = current_time.tv_usec;
+        printf("Inner Loop took %llu nanoseconds and %ld microseconds\n", gethosttime(after_cycles - before_cycles), (after_day - before_day));
+       }
+   }
    ```
-   <br/>
-   As you can see, gettimeofday() took much longer because its systemcall is not an assebmley call.
-   In addition, the precision of the check is in microseconds and not in nanoseconds.
-   As we noticed in the inner loops, that sometimes getcycles() took more time, it might be interupt from the processor.
-   To sum up, the function gethosttime() was much accuarate and much faster.
+   As you can see, gettimeofday() took much longer because its systemcall is not an assebmley call: <br/><br/>
+   <img src="/images/inner_loop.png">
+   <br/><br/>
+   In addition, the precision of the check is in microseconds and not in nanoseconds. <br/>
+   As we noticed in the inner loops, that sometimes getcycles() took more time, it might be interupt by the processor itself. <br/>
+   To sum up, the function gethosttime() was much accuarate and much faster. <br/><br/>
+   
 <br/>   
 ## Invidual Part - Understanding of process memory maps
 Bla bla
