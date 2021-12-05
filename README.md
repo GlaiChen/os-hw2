@@ -17,42 +17,42 @@ The main purpose was to write a program that take care of 3 steps:
    A. In order to calculate the equivalent of cycles in nanoseconds, first we need to calculate the CPU Frequency in GHz. <br/>
       I wrote a function, which use `fopen()`  in READ mode the file `/nproc/cpuinfo` , reads the VM's CPU in MHz and converts it into GHz. <br/><br/>
       ```bash
-      static double ghz; 
+     static inline double getfreqGHz() {
+         FILE* fptr = fopen("/proc/cpuinfo", "r");   
+         if (fptr == NULL) {
+             printf("ERROR: File PATH /proc/cpuinfo does not exists");
+             return EXIT_FAILURE;
+         }
 
-      static inline int getfreqGHz(double* ghz) {
-          FILE* fptr = fopen("/proc/cpuinfo", "r");
-          if (fptr == NULL) {
-              printf("ERROR: File does not exists");
-              return EXIT_FAILURE;
-          }
-
-          char temp1, temp2;
-          double mhz = 0;                            
-          size_t n = 0;
-          char* line = NULL;
-          while (getline(&line, &n, fptr) > 0) {      
-              if (strstr(line, "MHz")) {
-                  sscanf(line, "%s %s : %lf", &temp1, &temp2, &mhz);
-                  break;
-              }
-          }
-          *ghz = mhz / 1000;
-          free(line);
-          fclose(fptr);
-          return 0;
+         char temp1, temp2;
+         double mhz = 0;                             
+         size_t n = 0;
+         char* line = NULL;
+         while (getline(&line, &n, fptr) > 0) {
+             if (strstr(line, "MHz")) {
+                 sscanf(line, "%s %s : %lf", &temp1, &temp2, &mhz);
+                 break;
+             }
+         }
+     //  printf("CPU in MHz: %lf \n", mhz);        //Added only for print-debugging
+     //  printf("CPU in GHz: %lf \n", (mhz/1000)); //Added only for print-debugging
+         free(line);
+         fclose(fptr);
+         return (mhz / 1000);
        }
       ```
-      
+      And the result: <br/><br/>
+      <img src="/images/result_mhz_ghz.png">
+      <br/><br/>
    B. Now that we have the CPU's frequency in GHz, we can create the simple function `gethosttime()` to calculate the equivalent long long in nanosecond. <br/>
       ```bash
-      static inline unsigned long long gethosttime(unsigned long long cycles) {
-          return (cycles / ghz);
+      unsigned long long gethosttime(unsigned long long cycles) {
+       double GHz =  getfreqGHz();
+          return (cycles / getfreqGHz());
       }
       ```
       <br/>
-      And the result: <br/><br/>
-      <img src="/images/mhz_ghz.png">
-      <br/><br/>
+
 2. Using `gethosttime()` , I had to measure how long it takes to execute `getcycles()` . In addition, I had to time the `gettimeofday()`  system call.
    We were asked to be mindful to do the measurement while minimizing the overhead of doing the measurement. <br/>
    
