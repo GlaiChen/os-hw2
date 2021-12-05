@@ -34,8 +34,8 @@ The main purpose was to write a program that take care of 3 steps:
                  break;
              }
          }
-     //  printf("CPU in MHz: %lf \n", mhz);        //Added only for print-debugging
-     //  printf("CPU in GHz: %lf \n", (mhz/1000)); //Added only for print-debugging
+       //printf("CPU in MHz: %lf \n", mhz);        //Added only for print-debugging
+       //printf("CPU in GHz: %lf \n", (mhz/1000)); //Added only for print-debugging
          free(line);
          fclose(fptr);
          return (mhz / 1000);
@@ -47,12 +47,15 @@ The main purpose was to write a program that take care of 3 steps:
    B. Now that we have the CPU's frequency in GHz, we can create the simple function `gethosttime()` to calculate the equivalent long long in nanosecond. <br/>
       ```bash
       unsigned long long gethosttime(unsigned long long cycles) {
-       double GHz =  getfreqGHz();
-          return (cycles / getfreqGHz());
+          double ghz =  getfreqGHz();
+        //printf("The equivalent in nanoseconds: %lf \n", cycles / ghz);
+          return (cycles / ghz);
       }
       ```
       <br/>
-
+      And the result: <br/><br/>
+      <img src="/images/eqivalent_nanoseconds.png">
+      <br/><br/>
 2. Using `gethosttime()` , I had to measure how long it takes to execute `getcycles()` . In addition, I had to time the `gettimeofday()`  system call.
    We were asked to be mindful to do the measurement while minimizing the overhead of doing the measurement. <br/>
    
