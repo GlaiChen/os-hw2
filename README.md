@@ -50,6 +50,9 @@ The main purpose was to write a program that take care of 3 steps:
       }
       ```
       <br/>
+      And the result: <br/><br/>
+      <img src="/images/mhz_ghz.png">
+      <br/><br/>
 2. Using `gethosttime()` , I had to measure how long it takes to execute `getcycles()` . In addition, I had to time the `gettimeofday()`  system call.
    We were asked to be mindful to do the measurement while minimizing the overhead of doing the measurement. <br/>
    
