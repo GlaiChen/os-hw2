@@ -50,8 +50,10 @@ The main purpose was to write a program that take care of 3 steps:
       }
       ```
       <br/>
-2. Using `gethosttime()` , I had to measure how long it takes to execute `getcycles()` . In addition, I had to time the `gettimeofday()`  system call. <br/>
+2. Using `gethosttime()` , I had to measure how long it takes to execute `getcycles()` . In addition, I had to time the `gettimeofday()`  system call.
    We were asked to be mindful to do the measurement while minimizing the overhead of doing the measurement. <br/>
+   
+   As you can, I've declared all the variables before, just assigned them when needed.
    
 3. I had to use both `gethosttime()`  and the `gettimeofday()`  system call to time the inner for-loop of the following bit of code: <br/><br/>
    ```bash
@@ -62,8 +64,10 @@ The main purpose was to write a program that take care of 3 steps:
       }
    ```
    <br/>
-   The answer should indicate the mean and standard deviation of loop iterations, and explain large variations in the results, if any. <br/>
-   Based on the measurements, indicate which timing method is more accurate and explain why. <br/>
+   As you can see, gettimeofday() took much longer because its systemcall is not an assebmley call.
+   In addition, the precision of the check is in microseconds and not in nanoseconds.
+   As we noticed in the inner loops, that sometimes getcycles() took more time, it might be interupt from the processor.
+   To sum up, the function gethosttime() was much accuarate and much faster.
 <br/>   
 ## Invidual Part - Understanding of process memory maps
 Bla bla
