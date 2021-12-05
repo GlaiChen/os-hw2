@@ -51,7 +51,7 @@ The main purpose was to write a program that take care of 3 steps:
       ```
       <br/>
 2. Using `gethosttime()` , I had to measure how long it takes to execute `getcycles()` . In addition, I had to time the `gettimeofday()`  system call. <br/>
-   I should be mindful to do the measurement while minimizing the overhead of doing the measurement. <br/>
+   We were asked to be mindful to do the measurement while minimizing the overhead of doing the measurement. <br/>
    
 3. I had to use both `gethosttime()`  and the `gettimeofday()`  system call to time the inner for-loop of the following bit of code: <br/><br/>
    ```bash
