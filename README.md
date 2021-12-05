@@ -13,7 +13,7 @@ The main purpose was to write a program that take care of 3 steps:
 1. I had to write a function in C called `gethosttime()`  that takes a long long cycles value as an argument and returns the equivalent long long in nanoseconds. <br/>
    To be portable, it should determine the CPU speed of the machine where it is called. <br/>
    As we use Linux in that assignment, we can locate the CPU in Mhz of the machine at the `/nproc/cpuinfo`  file <br/><br/>
-   <img src="/images/cpu_mhz.png"> <br/><br/>
+   <img src="/images/cpuinfo_mhz.png"> <br/><br/>
    A. In order to calculate the equivalent of cycles in nanoseconds, first we need to calculate the CPU Frequency in GHz. <br/>
       I wrote a function, which use `fopen()`  in READ mode the file `/nproc/cpuinfo` , reads the VM's CPU in MHz and converts it into GHz. <br/><br/>
       ```bash
