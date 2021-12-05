@@ -7,7 +7,7 @@ This program is a part of our 2nd assignment. <br/>
 Check out <a href="https://github.com/GlaiChen/os-hw2/blob/main/assignment-2.md">os-hw2/assignment-2.md</a> for full details of the assignment. <br/>
 This program is only the invidual part, and the group part will apear at Branch - ex2 from our repo at the following link: <br/>https://github.com/academy-dt/adv-os-linux/tree/ex2 </br>
 
-## Invidual Part - Timing methodologies
+## Invidual Part 1 - Timing methodologies
 For full answer (which is the actual code) - check out the code at <a href="https://github.com/GlaiChen/os-hw2/blob/main/main.c">os-hw2/main.c </a> <br/>
 The main purpose was to write a program that take care of 3 steps:
 1. I had to write a function in C called `gethosttime()`  that takes a long long cycles value as an argument and returns the equivalent long long in nanoseconds. <br/>
@@ -108,7 +108,6 @@ The main purpose was to write a program that take care of 3 steps:
    In addition, the precision of the check is in microseconds and not in nanoseconds. <br/>
    As we noticed in the inner loops, that sometimes `getcycles()` took more time, it might be interupt by the processor itself. <br/>
    To sum up, the function `gethosttime()` was much accuarate and much faster. <br/><br/>
-   
-<br/>   
-## Invidual Part - Understanding of process memory maps
-Bla bla
+## Invidual Part 2 - Understanding of process memory maps
+1. I was asked to explain the page table mappings of each region of cat /proc/self/maps by stating precisely what each region is used for.<br/>
+2. 
