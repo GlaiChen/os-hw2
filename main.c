@@ -23,16 +23,16 @@ static inline double getfreqGHz() {
             break;
         }
     }
-//  printf("CPU in MHz: %lf \n", mhz);
-//  printf("CPU in GHz: %lf \n", (mhz/1000));
+//  printf("CPU in MHz: %lf \n", mhz); 		//Added only for print-debugging
+//  printf("CPU in GHz: %lf \n", (mhz/1000));	//Added only for print-debugging
     free(line);
     fclose(fptr);
     return (mhz / 1000);
 }
     
 unsigned long long gethosttime(unsigned long long cycles) {
-	double ghz =  getfreqGHz();
-//  printf("The equivalent in nanoseconds: %lf \n", cycles / ghz);
+    double ghz =  getfreqGHz();
+//  printf("The equivalent in nanoseconds: %lf \n", cycles / ghz); //Added only for print-debugging
     return (cycles / ghz);
 }
 
@@ -80,7 +80,6 @@ void calculate_inner_loop() {
 	    printf("Inner Loop took %llu nanoseconds and %ld microseconds\n", gethosttime(after_cycles - before_cycles), (after_day - before_day));
     }
 }
-
 
 int main(int argc, char** argv) {
     measure_get_cycles();
