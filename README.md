@@ -102,12 +102,12 @@ The main purpose was to write a program that take care of 3 steps:
        }
    }
    ```
-   As you can see, gettimeofday() took much longer because its systemcall is not an assebmley call: <br/><br/>
+   As you can see, `gettimeofday()` took much longer because its systemcall is not an assebmley call: <br/><br/>
    <img src="/images/inner_loop.png">
    <br/><br/>
    In addition, the precision of the check is in microseconds and not in nanoseconds. <br/>
-   As we noticed in the inner loops, that sometimes getcycles() took more time, it might be interupt by the processor itself. <br/>
-   To sum up, the function gethosttime() was much accuarate and much faster. <br/><br/>
+   As we noticed in the inner loops, that sometimes `getcycles()` took more time, it might be interupt by the processor itself. <br/>
+   To sum up, the function `gethosttime()` was much accuarate and much faster. <br/><br/>
    
 <br/>   
 ## Invidual Part - Understanding of process memory maps
