@@ -192,7 +192,7 @@ The main purpose was to write a program that take care of 3 steps:
    # The glibc library mapped as Read-only && Private. This is its .rodata segment
    7f78887a1000-7f78887eb000 r--p 0019d000 08:01 3447                       /usr/lib/x86_64-linux-gnu/libc-2.31.so
    
-  #
+   # The glibc library mapped without any permissions, and it is Private. This is its .rodata segment
    7f78887eb000-7f78887ec000 ---p 001e7000 08:01 3447                       /usr/lib/x86_64-linux-gnu/libc-2.31.so
    
    # The glibc library mapped as Read-only && Private. This is its .rodata segment
@@ -209,7 +209,7 @@ The main purpose was to write a program that take care of 3 steps:
    # LC_MEASUREMENT is default measurement system used within the region, mapped as Read-only && Private permissions. .rodata segment.
    7f78887f8000-7f78887f9000 r--p 00000000 08:01 5980                       /usr/lib/locale/C.UTF-8/LC_MEASUREMENT
   
-  #
+   # Usual system gconv module configuration cache, mapped as Read-only && Shared, this is its .rodata.
    7f78887f9000-7f7888800000 r--s 00000000 08:01 3756                       /usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache
 
    # Dynamic Linker/Loader mapped as Read-only && private permissions, this is its .rodata segment.
