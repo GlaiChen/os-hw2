@@ -223,6 +223,5 @@ The main purpose was to write a program that take care of 3 steps:
        We can have for example the `gettimeofday()`; This simple syscall provide no threat to the kernel and there's no real need to do the context switch between the user space and the kernel space. <br/>
        The `vDSO` offers the same functionality as the vsyscall, while bridging of the vsyscall gaps. <br/>
        The `vDSO` maps memory pages into each process into a shared object form, which helps the system so all userspace applications that dynamically link to glibc will use the vDSO automatically. <br/> It exposes some kernel functionalities at user space in a safe manner.
-       This has been introduced to solve the security threats caused by the `vsyscall`. <br/>
-       Another problem the `vDSO` aim to solve is the limit that the `vsyscall` produce - up to 4 system calls.<br/>
+       This has been introduced to solve the security threats caused by the `vsyscall`. In addition, another problem the `vDSO` aim to solve is the limit that the `vsyscall` produce - up to 4 system calls.<br/>
        To sum up, the `vDSO` is dynamically allocated and aim to solve the security concerns such as fixed addresses and it can have more than 4 system calls.<br/>
