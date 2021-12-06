@@ -259,14 +259,20 @@ The main purpose was to write a program that take care of 3 steps:
    A: I have copied the `cat /proc/$(pidof systemd-journald)/maps`  to a new txt file and edited it, so I can easily present it here with the full detailed answer: <br/><br/>
    ```bash
    ############################################################################################################################
-            address         perms  offset   dev  inode                       pathname
+            address         perms  offset   dev  inode                                    pathname
    ############################################################################################################################
    55c9f471b000-55c9f4721000 r--p 00000000 08:01 3308                       /usr/lib/systemd/systemd-journald
    55c9f4721000-55c9f4739000 r-xp 00006000 08:01 3308                       /usr/lib/systemd/systemd-journald
    55c9f4739000-55c9f4741000 r--p 0001e000 08:01 3308                       /usr/lib/systemd/systemd-journald
    55c9f4741000-55c9f4743000 r--p 00025000 08:01 3308                       /usr/lib/systemd/systemd-journald
    55c9f4743000-55c9f4744000 rw-p 00027000 08:01 3308                       /usr/lib/systemd/systemd-journald
+   ```
+   In adittion, we can see more Shared memory segments: <br/><br/>
    
+   ```bash
+   ############################################################################################################################
+            address         perms  offset   dev  inode                                    pathname
+   ############################################################################################################################
    7f617a38f000-7f617ab8f000 rw-s 00000000 08:01 258198                     /var/log/journal/daa5f54b52c44b9886fdaa70812de1c5/user-1000.journal
    7f617ab8f000-7f617b38f000 rw-s 00000000 08:01 258056                     /var/log/journal/daa5f54b52c44b9886fdaa70812de1c5/system.journal
    
@@ -280,9 +286,9 @@ The main purpose was to write a program that take care of 3 steps:
    Moreover, we can see many more objects from the same regions from Q1: <br/><br/>
    ```bash
    ############################################################################################################################
-            address         perms  offset   dev  inode                       pathname
+            address         perms  offset   dev  inode                                     pathname
    ############################################################################################################################
-    7f617cb97000-7f617cb99000 r--p 00000000 08:01 3467                       /usr/lib/x86_64-linux-gnu/libcap-ng.so.0.0.0
+   7f617cb97000-7f617cb99000 r--p 00000000 08:01 3467                       /usr/lib/x86_64-linux-gnu/libcap-ng.so.0.0.0
    7f617cb99000-7f617cb9c000 r-xp 00002000 08:01 3467                       /usr/lib/x86_64-linux-gnu/libcap-ng.so.0.0.0
    7f617cb9c000-7f617cb9d000 r--p 00005000 08:01 3467                       /usr/lib/x86_64-linux-gnu/libcap-ng.so.0.0.0
    7f617cb9d000-7f617cb9e000 r--p 00005000 08:01 3467                       /usr/lib/x86_64-linux-gnu/libcap-ng.so.0.0.0
