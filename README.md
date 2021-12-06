@@ -117,44 +117,66 @@ The main purpose was to write a program that take care of 3 steps:
             address         perms  offset   dev  inode                       pathname
    ############################################################################################################################
 
-   #A Private process with Read only permissions, which was not mapped from a file (= 00000000)
+   # A Private BINARY ELF with Read only permissions, which was not mapped from a file (= 00000000). It's the .rodata segment.
    56455c362000-56455c364000 r--p 00000000 08:01 1566                       /usr/bin/cat
-   #
+   
+   # Another Private BINARY ELF with Read && Executable only permissions, which mapped from the upper line (offset 2000). It's the .text segment.
    56455c364000-56455c369000 r-xp 00002000 08:01 1566                       /usr/bin/cat
-   #
+   
+   # Another Private process with Read only permissions, which mapped from the first line (offset 7000). It's .rodata segment.
    56455c369000-56455c36c000 r--p 00007000 08:01 1566                       /usr/bin/cat
-   #
+   
+   # Another Private process with Read only permissions, which is .rodata segment.
    56455c36c000-56455c36d000 r--p 00009000 08:01 1566                       /usr/bin/cat
-   #
+   
+   # Another Private process with Read/Write permissions, which is .data segment.
    56455c36d000-56455c36e000 rw-p 0000a000 08:01 1566                       /usr/bin/cat
-   #
+   
+   # The location of the Heap memory segment, with Read/Write permissions. This is where the memory used for dynamic allocations.
    56455cdc3000-56455cde4000 rw-p 00000000 00:00 0                          [heap]
-   #
+   
+   # Anonymous Read/Write segment which may be used as a backing store.
+   # Read/Write permissions and Private.
    7f788814f000-7f7888171000 rw-p 00000000 00:00 0
-   #
+  
+   # A part of Locales (set of environment variables that are used to determine how to display data and time).
+   # LC_CTYPE is character classification and case conversion, mapped as Read-only && Private permissions. .rodata segment.
    7f7888171000-7f78881a3000 r--p 00000000 08:01 5978                       /usr/lib/locale/C.UTF-8/LC_CTYPE
-   #
+   
+   # A part of Locales (set of environment variables that are used to determine how to display data and time).
+   # LC_NUMERIC is numeric formatting, mapped as Read-only && Private permissions. .rodata segment.
    7f78881a3000-7f78881a4000 r--p 00000000 08:01 5983                       /usr/lib/locale/C.UTF-8/LC_NUMERIC
-   #
+   
+   # A part of Locales (set of environment variables that are used to determine how to display data and time).
+   # LC_TIME is date and time formats, mapped as Read-only && Private permissions. .rodata segment.
    7f78881a4000-7f78881a5000 r--p 00000000 08:01 5986                       /usr/lib/locale/C.UTF-8/LC_TIME
-   #
+   
+   # A part of Locales (set of environment variables that are used to determine how to display data and time).
+   # LC_COLLATE is collation (sort) order, mapped as Read-only && Private permissions. .rodata segment.
    7f78881a5000-7f7888318000 r--p 00000000 08:01 5977                       /usr/lib/locale/C.UTF-8/LC_COLLATE
-   #
+   
+   # A part of Locales (set of environment variables that are used to determine how to display data and time).
+   # LC_MONETARY is monetary formatting, mapped as Read-only && Private permissions. .rodata segment.
    7f7888318000-7f7888319000 r--p 00000000 08:01 5981                       /usr/lib/locale/C.UTF-8/LC_MONETARY
-   #
-   #
+   
+   # A part of Locales (set of environment variables that are used to determine how to display data and time).
+   # SYS_LC_MESSAGES is format of interactive words and responses, mapped as Read-only && Private permissions. .rodata segment.
    7f7888319000-7f788831a000 r--p 00000000 08:01 5975                       /usr/lib/locale/C.UTF-8/LC_MESSAGES/SYS_LC_MESSAGES
-
-   #
+   
+   # A part of Locales (set of environment variables that are used to determine how to display data and time).
+   # LC_PAPER is default paper size for region, mapped as Read-only && Private permissions. .rodata segment.
    7f788831a000-7f788831b000 r--p 00000000 08:01 5984                       /usr/lib/locale/C.UTF-8/LC_PAPER
 
-   #
+   # A part of Locales (set of environment variables that are used to determine how to display data and time).
+   # LC_NAME is name formats, mapped as Read-only && Private permissions. .rodata segment.
    7f788831b000-7f788831c000 r--p 00000000 08:01 5982                       /usr/lib/locale/C.UTF-8/LC_NAME
 
-   #
+   # A part of Locales (set of environment variables that are used to determine how to display data and time).
+   # LC_ADDRESS is convention used for formatting of street or postal addresses, mapped as Read-only && Private permissions. .rodata segment.
    7f788831c000-7f788831d000 r--p 00000000 08:01 5976                       /usr/lib/locale/C.UTF-8/LC_ADDRESS
-
-   #
+   
+   # A part of Locales (set of environment variables that are used to determine how to display data and time).
+   # LC_TELEPHONE is conventions used for representation of telephone numbers, mapped as Read-only && Private permissions. .rodata segment.
    7f788831d000-7f788831e000 r--p 00000000 08:01 5985                       /usr/lib/locale/C.UTF-8/LC_TELEPHONE
 
    #
@@ -170,7 +192,9 @@ The main purpose was to write a program that take care of 3 steps:
    # Anonymous Read/Write segment which may be used as a backing store.
    # Read/Write permissions and Private.
    7f78887f2000-7f78887f8000 rw-p 00000000 00:00 0
-   #
+
+   # A part of Locales (set of environment variables that are used to determine how to display data and time).
+   # LC_MEASUREMENT is default measurement system used within the region, mapped as Read-only && Private permissions. .rodata segment.
    7f78887f8000-7f78887f9000 r--p 00000000 08:01 5980                       /usr/lib/locale/C.UTF-8/LC_MEASUREMENT
    #
    7f78887f9000-7f7888800000 r--s 00000000 08:01 3756                       /usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache
@@ -180,11 +204,14 @@ The main purpose was to write a program that take care of 3 steps:
    7f7888801000-7f7888824000 r-xp 00001000 08:01 3443                       /usr/lib/x86_64-linux-gnu/ld-2.31.so
    7f7888824000-7f788882c000 r--p 00024000 08:01 3443                       /usr/lib/x86_64-linux-gnu/ld-2.31.so
 
-   #
+   # A part of Locales (set of environment variables that are used to determine how to display data and time).
+   # LC_IDENTIFICATION is metadata about the locale information, mapped as Read-only && Private permissions. .rodata segment.
    7f788882c000-7f788882d000 r--p 00000000 08:01 5979                       /usr/lib/locale/C.UTF-8/LC_IDENTIFICATION
 
-   #
+   # Dynamic Linker/Loader mapped as Read-only && private permissions, this is its .rodata segment.
    7f788882d000-7f788882e000 r--p 0002c000 08:01 3443                       /usr/lib/x86_64-linux-gnu/ld-2.31.so
+   
+   # Dynamic Linker/Loader mapped as Read/Write && private permissions, this is its .data segment.
    7f788882e000-7f788882f000 rw-p 0002d000 08:01 3443                       /usr/lib/x86_64-linux-gnu/ld-2.31.so
    
    # Anonymous Read/Write segment which may be used as a backing store.
