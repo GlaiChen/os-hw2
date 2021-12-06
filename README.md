@@ -102,8 +102,8 @@ The main purpose was to write a program that take care of 3 steps:
        }
    }
    ```
-   As you can see, `gettimeofday()` took much longer because its systemcall is not an assebmley call. Moreover, there are higher chances of a context switch in `gettimeofday()`: <br/>
-   <br/>
+   As you can see, `gettimeofday()` took much longer because its systemcall is not an assebmley call. <br/>
+   Moreover, there are higher chances of a context switch in `gettimeofday()`: <br/><br/>
    <img src="/images/inner_loop.png">
    <br/><br/>
    In addition, the precision of the check is in microseconds and not in nanoseconds. <br/>
@@ -113,6 +113,101 @@ The main purpose was to write a program that take care of 3 steps:
 1. Q: Explain the page table mappings of each region of `cat /proc/self/maps`  by stating precisely what each region is used for (e.g. [stack] is the stack of the process).<br/>
    A: I have copied the `/proc/self/maps`  to a new txt file and edited it, so I can easily present it here with the full detailed answer: <br/><br/>
    ```bash
+   ############################################################################################################################
+         address         perms  offset   dev  inode                       pathname
+   ############################################################################################################################
+
+   #A Private process with Read only permissions, which was not mapped from a file (= 00000000)
+   56455c362000-56455c364000 r--p 00000000 08:01 1566                       /usr/bin/cat
+   #
+   56455c364000-56455c369000 r-xp 00002000 08:01 1566                       /usr/bin/cat
+   #
+   56455c369000-56455c36c000 r--p 00007000 08:01 1566                       /usr/bin/cat
+   #
+   56455c36c000-56455c36d000 r--p 00009000 08:01 1566                       /usr/bin/cat
+   #
+   56455c36d000-56455c36e000 rw-p 0000a000 08:01 1566                       /usr/bin/cat
+   #
+   56455cdc3000-56455cde4000 rw-p 00000000 00:00 0                          [heap]
+   #
+   7f788814f000-7f7888171000 rw-p 00000000 00:00 0
+   #
+   7f7888171000-7f78881a3000 r--p 00000000 08:01 5978                       /usr/lib/locale/C.UTF-8/LC_CTYPE
+   #
+   7f78881a3000-7f78881a4000 r--p 00000000 08:01 5983                       /usr/lib/locale/C.UTF-8/LC_NUMERIC
+   #
+   7f78881a4000-7f78881a5000 r--p 00000000 08:01 5986                       /usr/lib/locale/C.UTF-8/LC_TIME
+   #
+   7f78881a5000-7f7888318000 r--p 00000000 08:01 5977                       /usr/lib/locale/C.UTF-8/LC_COLLATE
+   #
+   7f7888318000-7f7888319000 r--p 00000000 08:01 5981                       /usr/lib/locale/C.UTF-8/LC_MONETARY
+   #
+   #
+   7f7888319000-7f788831a000 r--p 00000000 08:01 5975                       /usr/lib/locale/C.UTF-8/LC_MESSAGES/SYS_LC_MESSAGES
+
+   #
+   7f788831a000-7f788831b000 r--p 00000000 08:01 5984                       /usr/lib/locale/C.UTF-8/LC_PAPER
+
+   #
+   7f788831b000-7f788831c000 r--p 00000000 08:01 5982                       /usr/lib/locale/C.UTF-8/LC_NAME
+
+   #
+   7f788831c000-7f788831d000 r--p 00000000 08:01 5976                       /usr/lib/locale/C.UTF-8/LC_ADDRESS
+
+   #
+   7f788831d000-7f788831e000 r--p 00000000 08:01 5985                       /usr/lib/locale/C.UTF-8/LC_TELEPHONE
+
+   #
+   7f788831e000-7f7888604000 r--p 00000000 08:01 5972                       /usr/lib/locale/locale-archive
+   #
+   7f7888604000-7f7888629000 r--p 00000000 08:01 3447                       /usr/lib/x86_64-linux-gnu/libc-2.31.so
+   7f7888629000-7f78887a1000 r-xp 00025000 08:01 3447                       /usr/lib/x86_64-linux-gnu/libc-2.31.so
+   7f78887a1000-7f78887eb000 r--p 0019d000 08:01 3447                       /usr/lib/x86_64-linux-gnu/libc-2.31.so
+   7f78887eb000-7f78887ec000 ---p 001e7000 08:01 3447                       /usr/lib/x86_64-linux-gnu/libc-2.31.so
+   7f78887ec000-7f78887ef000 r--p 001e7000 08:01 3447                       /usr/lib/x86_64-linux-gnu/libc-2.31.so
+   7f78887ef000-7f78887f2000 rw-p 001ea000 08:01 3447                       /usr/lib/x86_64-linux-gnu/libc-2.31.so
+
+   # Anonymous Read/Write segment which may be used as a backing store.
+   # Read/Write permissions and Private.
+   7f78887f2000-7f78887f8000 rw-p 00000000 00:00 0
+   #
+   7f78887f8000-7f78887f9000 r--p 00000000 08:01 5980                       /usr/lib/locale/C.UTF-8/LC_MEASUREMENT
+   #
+   7f78887f9000-7f7888800000 r--s 00000000 08:01 3756                       /usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache
+
+   #
+   7f7888800000-7f7888801000 r--p 00000000 08:01 3443                       /usr/lib/x86_64-linux-gnu/ld-2.31.so
+   7f7888801000-7f7888824000 r-xp 00001000 08:01 3443                       /usr/lib/x86_64-linux-gnu/ld-2.31.so
+   7f7888824000-7f788882c000 r--p 00024000 08:01 3443                       /usr/lib/x86_64-linux-gnu/ld-2.31.so
+
+   #
+   7f788882c000-7f788882d000 r--p 00000000 08:01 5979                       /usr/lib/locale/C.UTF-8/LC_IDENTIFICATION
+
+   #
+   7f788882d000-7f788882e000 r--p 0002c000 08:01 3443                       /usr/lib/x86_64-linux-gnu/ld-2.31.so
+   7f788882e000-7f788882f000 rw-p 0002d000 08:01 3443                       /usr/lib/x86_64-linux-gnu/ld-2.31.so
+   
+   # Anonymous Read/Write segment which may be used as a backing store.
+   # Read/Write permissions and Private.
+   7f788882f000-7f7888830000 rw-p 00000000 00:00 0
+
+   # This is the main thread’s stack segment which enfolds the local variables.
+   # Read/Write and private permissions.
+   7fff39ae0000-7fff39b01000 rw-p 00000000 00:00 0                          [stack]
+
+   # Mapping for the [vsyscall]. Variables from the kernel address space are which mapped to the user-space addresses.
+   # It is Read-only and private.
+   7fff39be0000-7fff39be3000 r--p 00000000 00:00 0                          [vvar]
+
+   # vDSO - Virtual Dynamic Shared Objects memory region (will be explained in Q4).
+   # It is the nowdays used mechanism.
+   # Read and Executable only and private.
+   7fff39be3000-7fff39be4000 r-xp 00000000 00:00 0                          [vdso]
+
+   # vsyscall - Virtual system call memory region (will be explained in Q4)
+   # It is the old mechanism, used when the kernel does not have vDSO support or need compatibility
+   # Executable only and private.
+   ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]
    ```
 2. Q: Explore the page table mappings of systemd-journald using the command `cat /proc/$(pidof systemd-journald)/maps` .  <br/>
       Explain the regions types that you have not seen in (Q1).. <br/>
