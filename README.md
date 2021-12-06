@@ -192,7 +192,7 @@ The main purpose was to write a program that take care of 3 steps:
    # The glibc library mapped as Read-only && Private. This is its .rodata segment
    7f78887a1000-7f78887eb000 r--p 0019d000 08:01 3447                       /usr/lib/x86_64-linux-gnu/libc-2.31.so
    
-   # The glibc library mapped without any permissions, and it is Private. This is its .rodata segment
+   # The glibc library mapped without any permissions, and it is Private. Can only be copied.
    7f78887eb000-7f78887ec000 ---p 001e7000 08:01 3447                       /usr/lib/x86_64-linux-gnu/libc-2.31.so
    
    # The glibc library mapped as Read-only && Private. This is its .rodata segment
