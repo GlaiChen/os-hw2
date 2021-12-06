@@ -255,7 +255,7 @@ The main purpose was to write a program that take care of 3 steps:
    ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]
    ```
 2. Q: Explore the page table mappings of systemd-journald using the command `cat /proc/$(pidof systemd-journald)/maps` .  <br/>
-      Explain the regions types that you have not seen in (Q1). <br/>
+      Explain the regions types that you have not seen in Q1. <br/>
    A: I have copied the `cat /proc/$(pidof systemd-journald)/maps`  to a new txt file and edited it, so I can easily present it here with the full detailed answer: <br/><br/>
    ```bash
    ############################################################################################################################
@@ -283,7 +283,7 @@ The main purpose was to write a program that take care of 3 steps:
    7f617daf6000-7f617daf7000 rw-s 00000000 08:01 258192                     /var/log/journal/daa5f54b52c44b9886fdaa70812de1c5/system@0d5c652224374643a8af3631f39c4c62-0000000000000001-0005d27bd51b4b4d.journal
    7f617daf7000-7f617daf8000 rw-s 00000000 08:01 258056                     /var/log/journal/daa5f54b52c44b9886fdaa70812de1c5/system.journal
    ```
-   Moreover, we can see many more objects from the same regions from Q1: <br/><br/>
+   Moreover, we can see many more objects from the same regions from Q1: <br/>
    ```bash
    ############################################################################################################################
             address         perms  offset   dev  inode                                     pathname
