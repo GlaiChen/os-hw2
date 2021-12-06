@@ -256,7 +256,12 @@ The main purpose was to write a program that take care of 3 steps:
    ```
 2. Q: Explore the page table mappings of systemd-journald using the command `cat /proc/$(pidof systemd-journald)/maps` .  <br/>
       Explain the regions types that you have not seen in Q1. <br/>
-   A: I have copied the `cat /proc/$(pidof systemd-journald)/maps`  to a new txt file and edited it, so I can easily present it here with the full detailed answer: <br/><br/>
+   A: When I've used `cat /proc/$(pidof systemd-journald)/maps` I've noticed 2 more groups of regions beside the rest we've seend at the last question. <br/>
+      The first group is `system-journald`  which related to the journal, which is a component of the systemd. <br/>
+      Actually, the `journald`  is the systemd's logging system. <br/>
+      The `journald`  stores logs in binary format into a "journal", which can queried by the `journalctl`  utility.<br/>
+      The journal data is saved persistently on disk under the `/var/log/journal directory`, and if the disk volume is not accessible or writable, the files will be created under `/run/log/journal` . <br/>
+      Page table mappings of `systemd-journald`  contains the its executable file mapped into memory, the librarys used by `systemd-journald` and so on. <br/><br/>
    ```bash
    ############################################################################################################################
             address         perms  offset   dev  inode                                    pathname
@@ -267,8 +272,7 @@ The main purpose was to write a program that take care of 3 steps:
    55c9f4741000-55c9f4743000 r--p 00025000 08:01 3308                       /usr/lib/systemd/systemd-journald
    55c9f4743000-55c9f4744000 rw-p 00027000 08:01 3308                       /usr/lib/systemd/systemd-journald
    ```
-   In adittion, we can see more Shared memory segments: <br/><br/>
-   
+   In adittion, we can see more `.journals`  paths, which are the regions of the logs data files: <br/><br/>
    ```bash
    ############################################################################################################################
             address         perms  offset   dev  inode                                    pathname
@@ -283,7 +287,7 @@ The main purpose was to write a program that take care of 3 steps:
    7f617daf6000-7f617daf7000 rw-s 00000000 08:01 258192                     /var/log/journal/daa5f54b52c44b9886fdaa70812de1c5/system@0d5c652224374643a8af3631f39c4c62-0000000000000001-0005d27bd51b4b4d.journal
    7f617daf7000-7f617daf8000 rw-s 00000000 08:01 258056                     /var/log/journal/daa5f54b52c44b9886fdaa70812de1c5/system.journal
    ```
-   Moreover, we can see many more objects from the same regions from Q1: <br/>
+   Moreover, we can see many more objects from the same regions from Q1: <br/><br/>
    ```bash
    ############################################################################################################################
             address         perms  offset   dev  inode                                     pathname
