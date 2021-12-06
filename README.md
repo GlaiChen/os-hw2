@@ -74,7 +74,7 @@ The main purpose was to write a program that take care of 3 steps:
        printf("Get time of day took %llu nanoseconds\n", diff);
    }
    ```
-   As you can, I've declared all the variables before, just assigned them when needed. <br/>
+   I've declared all the variables before, just assigned them when needed. <br/>
    And as for the results: <br/><br/>
    <img src="/images/get_cycles_get_timeofday.png">
    <br/><br/>
@@ -102,12 +102,32 @@ The main purpose was to write a program that take care of 3 steps:
        }
    }
    ```
-   As you can see, `gettimeofday()` took much longer because its systemcall is not an assebmley call: <br/><br/>
+   As you can see, `gettimeofday()` took much longer because its systemcall is not an assebmley call. Moreover, there are higher chances of a context switch in `gettimeofday()`: <br/>
+   <br/>
    <img src="/images/inner_loop.png">
    <br/><br/>
    In addition, the precision of the check is in microseconds and not in nanoseconds. <br/>
-   As we noticed in the inner loops, that sometimes `getcycles()` took more time, it might be interupt by the processor itself. <br/>
+   As we noticed in the inner loops, that sometimes `getcycles()` took more time, it might be interrupt by the processor itself. <br/>
    To sum up, the function `gethosttime()` was much accuarate and much faster. <br/><br/>
 ## Invidual Part 2 - Understanding of process memory maps
-1. I was asked to explain the page table mappings of each region of cat /proc/self/maps by stating precisely what each region is used for.<br/>
-2. 
+1. Q: Explain the page table mappings of each region of `cat /proc/self/maps`  by stating precisely what each region is used for (e.g. [stack] is the stack of the process).<br/>
+   A: I have copied the `/proc/self/maps`  to a new txt file and edited it, so I can easily present it here with the full detailed answer: <br/><br/>
+   ```bash
+   ```
+2. Q: Explore the page table mappings of systemd-journald using the command `cat /proc/$(pidof systemd-journald)/maps` .  <br/>
+      Explain the regions types that you have not seen in (Q1).. <br/>
+3. Q: Do `cat /proc/self/maps`  multiple times on your system (laptop or VM). What do you notice regarding the page table mapping? Why? <br/>
+   A: When I did `cat /proc/self/maps` multiple times on my system (the given VM from Prof. Laadan), I have noticed that the addresses change each time. <br/>
+      The reason is quite simple, the OS itself is randomizing the addresses of all libraries in the system. <br/>
+      The reason for the randomization is SECURITY. The more the system can randomize addresses, <br/> the more the adversary is having hard times to find the libraries he's        searching for implementing diverse attacks.
+4. Q: Notice the [vdso] mapping that is common to all processe. Read the man page (`man vdso`), and explain its purpose and the problems it aims to solve. <br/>
+   A: [vDSO], which its full name is "Virtual Dynamic Shared Object", as defined, is a small shared library that the kernel automatically maps into the address
+       space of all user space applications. <br/>
+       It's purpose is being an alternative to the cycle-expensive system call interface that the kernel provides us (`vsyscall`). <br/>
+       As we learned in class and practiced in this assignment, we've noticed that in order to accomplish a system call, the kernel must switch between memory contexts, the user space and the kernel space, <br/> due to secturity problems (among the rest). When calling a simple syscalls, the system is trying to avoid the overhead of context switching into the kernel, and the result is a `vsyscall` which takes longer to execute. <br/>
+       We can have for example the `gettimeofday()`; This simple syscall provide no threat to the kernel and there's no real need to do the context switch between the user space and the kernel space. <br/>
+       The `vDSO` offers the same functionality as the vsyscall, while bridging of the vsyscall gaps. <br/>
+       The `vDSO` maps memory pages into each process into a shared object form, which helps the system so all userspace applications that dynamically link to glibc will use the vDSO automatically. <br/> It exposes some kernel functionalities at user space in a safe manner.
+       This has been introduced to solve the security threats caused by the `vsyscall`. 
+       Another problem the `vDSO` aim to solve. is the limit that the `vsyscall` produce - up to 4 system calls.
+       To sum up, the `vDSO` is dynamically allocated and aim to solve the security concerns such as fixed addresses and it can have more than 4 system calls.
