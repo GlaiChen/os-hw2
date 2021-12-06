@@ -114,7 +114,7 @@ The main purpose was to write a program that take care of 3 steps:
    A: I have copied the `/proc/self/maps`  to a new txt file and edited it, so I can easily present it here with the full detailed answer: <br/><br/>
    ```bash
    ############################################################################################################################
-         address         perms  offset   dev  inode                       pathname
+            address         perms  offset   dev  inode                       pathname
    ############################################################################################################################
 
    #A Private process with Read only permissions, which was not mapped from a file (= 00000000)
